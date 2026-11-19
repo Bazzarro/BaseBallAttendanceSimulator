@@ -1,0 +1,10 @@
+.cli-terminal-window {
+    background-color: #1e1e1e;
+    color: #4af626; /* terminal green or retro baseball off-white */
+    font-family: 'Courier New', Courier, monospace;
+    padding: 1rem;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    min-height: 220px;
+}
+

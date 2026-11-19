@@ -8,11 +8,12 @@ import dash_bootstrap_components as dbc
 import dash_mantine_components as dmc
 from dash import Dash, html, dcc, callback, Input, Output
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 app = Dash(
+    __name__,
     use_pages=True,
-    title="Baseball Attendance Analytics",
+    title="Baseball Attendance Simulator",
     external_stylesheets=[dbc.themes.SLATE],
 )
 
@@ -61,7 +62,8 @@ def update_active_nav(pathname):
 
     # Sort pages by order parameter
     sorted_pages = sorted(
-        dash.page_registry.values(), key=lambda p: p.get("order", 999)
+        dash.page_registry.values(), 
+        key=lambda p: p.get("order") if p.get("order") is not None else 999,
     )
 
     for page in sorted_pages:

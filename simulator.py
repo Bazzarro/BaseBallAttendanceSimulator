@@ -17,18 +17,18 @@ class GameSimulator:
         precip: str = None,
         temp: int = None
     ):
-        print(f"\n{'='*60}")
+        print(f"\n{'='*54}")
         print(f"  BASEBALL ATTENDANCE SIMULATOR")
-        print(f"{'='*60}")
+        print(f"{'='*54}")
         print(f"  Matchup: {vis_team} at {home_team}")
         print(f"  Timing:  {day_of_week} ({daynight})")
         if sky and precip and temp is not None:
             print(f"  Weather: {sky}, {precip}, {temp}°F")
-        print(f"{'-'*60}\n")
+        print(f"{'-'*54}\n")
 
         # step 1: predict attendance using past games
         print("1. ATTENDANCE PREDICTION")
-        print("------------------------")
+        print(f"{'-'*54}\n")
         df_att = self.qa.simulate_attendance(home_team, vis_team, day_of_week, daynight)
         
 
@@ -52,6 +52,8 @@ class GameSimulator:
                 pct_full = (pred_att / capacity) * 100
                 if pct_full > 100:
                     pct_full = 100
+                if pred_att > capacity:
+                    pred_att = capacity
                     
                 print(f"  Stadium Capacity:     {pct_full:.1f}% full ({pred_att:,} / {capacity:,})")
 
@@ -59,7 +61,7 @@ class GameSimulator:
 
         # step 2: show how much the weather and day of the week change the attendance
         print("\n2. FACTOR IMPACT ANALYSIS")
-        print("-------------------------")
+        print(f"{'-'*54}\n")
         df_factors = self.qa.factor_impacts(home_team, day_of_week, sky, precip, temp)
         if df_factors.empty:
             print("  [!] Not enough data to isolate factor impacts.")
@@ -71,7 +73,7 @@ class GameSimulator:
 
         # step 3: look up the ticket prices for this game
         print("\n3. SECONDARY TICKET MARKET PREDICTION")
-        print("-------------------------------------")
+        print(f"{'-'*54}\n")
         df_tickets = self.qa.predict_ticket_prices(home_team, vis_team)
         if df_tickets.empty or pd.isna(df_tickets.iloc[0]['predicted_floor']):
             print("  [!] No secondary market data available for this matchup/team.")
@@ -82,7 +84,7 @@ class GameSimulator:
             print(f"  Predicted Ceiling Price: ${row['predicted_ceiling']:,.2f}")
             print(f"  Data Source:             {row['match_level']} (n={int(row['data_points'])})")
 
-        print(f"\n{'='*60}\n")
+        print(f"\n{'='*54}\n")
 
 def interactive_mode():
     print("Entering Interactive Simulator Mode.")
